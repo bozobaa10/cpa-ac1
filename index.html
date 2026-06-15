@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>การบัญชี 1 · คลังข้อสอบ CPA (ปรนัย)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai+Looped:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F4EC; --paper-card:#FBFCF8; --row-alt:#EAF0E4;
+  --ink:#16231D; --ink-soft:#54625A; --ink-faint:#8A968D;
+  --rule:#CBD5C4; --rule-strong:#2C3A32;
+  --brass:#94732F; --brass-soft:#B79A5E;
+  --green:#176B4C; --green-bg:#E2EFE5;
+  --red:#A23528; --red-bg:#F5E4E0;
+  --select:#1E3830; --select-bg:#E5ECE6;
+  --shadow:0 1px 0 rgba(20,40,30,.04), 0 8px 28px -18px rgba(20,40,30,.35);
+  --maxw:760px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"IBM Plex Sans Thai",system-ui,sans-serif;
+  font-weight:400;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  /* faint ledger ruling */
+  background-image:linear-gradient(var(--rule) 1px,transparent 1px);
+  background-size:100% 34px;
+  background-position:0 -1px;
+  background-attachment:fixed;
+}
+.mono{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;font-feature-settings:"tnum"}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px}
+
+/* ---------- header ---------- */
+header.app{
+  position:sticky;top:0;z-index:30;
+  background:rgba(241,244,236,.86);backdrop-filter:saturate(1.1) blur(8px);
+  border-bottom:1px solid var(--rule-strong);
+}
+header.app .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:baseline;gap:10px;min-width:0}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--brass);flex:none;transform:translateY(-1px)}
+.brand h1{
+  font-family:"IBM Plex Sans Thai Looped";font-weight:700;font-size:19px;
+  letter-spacing:-.2px;margin:0;white-space:nowrap;
+}
+.brand .sub{font-size:11px;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.hstat{font-family:"IBM Plex Mono";font-size:12px;color:var(--ink-soft);text-align:right;line-height:1.3}
+.hstat b{color:var(--green);font-weight:600}
+
+/* ---------- generic ---------- */
+.view{padding:30px 0 90px;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.eyebrow{font-family:"IBM Plex Mono";font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);font-weight:500}
+h2.section{font-family:"IBM Plex Sans Thai Looped";font-weight:600;font-size:25px;margin:.35em 0 .1em;letter-spacing:-.3px}
+.lede{color:var(--ink-soft);font-size:14.5px;margin:0 0 4px}
+.dbl-rule{height:0;border:0;border-top:1px solid var(--rule-strong);box-shadow:0 3px 0 -2px var(--rule-strong);margin:18px 0 26px}
+
+/* ---------- setup form ---------- */
+.formcard{background:var(--paper-card);border:1px solid var(--rule);border-radius:14px;box-shadow:var(--shadow);padding:6px 20px 22px;margin-top:18px}
+.field{padding:18px 0;border-bottom:1px solid var(--rule)}
+.field:last-child{border-bottom:0}
+.field > label.flab{display:flex;align-items:baseline;gap:8px;font-weight:600;font-size:15px;margin-bottom:11px}
+.field .flab .n{font-family:"IBM Plex Mono";font-size:12px;color:var(--brass);font-weight:500}
+.field .hint{color:var(--ink-faint);font-size:12.5px;font-weight:400}
+
+.seg{display:inline-flex;background:var(--select-bg);border:1px solid var(--rule);border-radius:10px;padding:3px;gap:3px}
+.seg button{font-family:inherit;font-size:14px;border:0;background:transparent;color:var(--ink-soft);padding:8px 16px;border-radius:7px;cursor:pointer;font-weight:500;transition:.18s}
+.seg button[aria-pressed="true"]{background:var(--select);color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-family:inherit;font-size:13px;border:1px solid var(--rule);background:var(--paper-card);color:var(--ink-soft);
+  padding:6px 12px;border-radius:999px;cursor:pointer;transition:.15s;user-select:none;line-height:1.4}
+.chip:hover{border-color:var(--brass-soft)}
+.chip[aria-pressed="true"]{background:var(--select);border-color:var(--select);color:#fff}
+.chip.all[aria-pressed="true"]{background:var(--brass);border-color:var(--brass)}
+.chip .c{font-family:"IBM Plex Mono";font-size:11px;opacity:.7;margin-left:5px}
+
+.counts{display:flex;gap:8px;flex-wrap:wrap}
+.counts .chip{min-width:58px;text-align:center;font-family:"IBM Plex Mono"}
+
+.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.switch{position:relative;width:46px;height:26px;flex:none}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--rule);border-radius:999px;transition:.2s;cursor:pointer}
+.slider::before{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(20px)}
+
+.cta{display:block;width:100%;margin-top:24px;font-family:"IBM Plex Sans Thai Looped";font-weight:600;font-size:17px;
+  background:var(--rule-strong);color:#fff;border:0;border-radius:12px;padding:16px;cursor:pointer;transition:.18s;letter-spacing:.2px}
+.cta:hover{background:#0f1c16}
+.cta:disabled{opacity:.4;cursor:not-allowed}
+.cta .k{font-family:"IBM Plex Mono";font-weight:500;font-size:13px;opacity:.7;margin-left:8px}
+
+.note{font-size:12px;color:var(--ink-faint);margin-top:14px;text-align:center}
+
+/* ---------- quiz ---------- */
+.qbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+.qbar .pos{font-family:"IBM Plex Mono";font-size:13px;color:var(--ink-soft)}
+.qbar .pos b{color:var(--ink);font-weight:600}
+.qbar .runscore{font-family:"IBM Plex Mono";font-size:13px;color:var(--green);font-weight:500}
+.linkbtn{background:none;border:0;color:var(--ink-faint);font-family:inherit;font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--red)}
+.progress{height:4px;background:var(--rule);border-radius:2px;overflow:hidden;margin-bottom:22px}
+.progress i{display:block;height:100%;background:var(--brass);transition:width .3s ease}
+
+.qcard{background:var(--paper-card);border:1px solid var(--rule);border-radius:14px;box-shadow:var(--shadow);padding:22px 22px 24px;margin-bottom:18px}
+.qmeta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.04em;padding:3px 9px;border-radius:6px;background:var(--select-bg);color:var(--ink-soft);border:1px solid var(--rule)}
+.tag.topic{background:transparent;border-color:var(--brass-soft);color:var(--brass)}
+.qno{font-family:"IBM Plex Sans Thai Looped";font-weight:600;font-size:13px;color:var(--ink-faint)}
+.stem{font-size:17px;font-weight:500;line-height:1.66;margin:2px 0 6px;white-space:pre-wrap;word-break:break-word}
+
+.opts{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;gap:13px;align-items:flex-start;width:100%;text-align:left;cursor:pointer;
+  background:var(--paper-card);border:1.5px solid var(--rule);border-radius:11px;padding:13px 15px;
+  font-family:inherit;font-size:15.5px;color:var(--ink);line-height:1.55;transition:.14s;word-break:break-word}
+.opt:hover:not(:disabled){border-color:var(--select);background:var(--select-bg)}
+.opt .key{font-family:"IBM Plex Mono";font-weight:600;font-size:13px;width:24px;height:24px;flex:none;
+  display:grid;place-items:center;border:1.5px solid var(--rule);border-radius:7px;color:var(--ink-soft);margin-top:1px;transition:.14s}
+.opt[aria-pressed="true"]{border-color:var(--select);background:var(--select-bg)}
+.opt[aria-pressed="true"] .key{background:var(--select);color:#fff;border-color:var(--select)}
+.opt.correct{border-color:var(--green);background:var(--green-bg)}
+.opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-bg)}
+.opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+.opt:disabled{cursor:default}
+.opt .mark{margin-left:auto;font-family:"IBM Plex Mono";font-size:12px;font-weight:600;align-self:center;flex:none}
+.opt.correct .mark{color:var(--green)}
+.opt.wrong .mark{color:var(--red)}
+
+.explain{margin-top:16px;border-top:1px dashed var(--rule);padding-top:14px;animation:fade .3s ease}
+.explain .lab{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin-bottom:5px}
+.explain .verdict{font-weight:600;font-size:14.5px;margin-bottom:6px}
+.explain .verdict.ok{color:var(--green)}
+.explain .verdict.no{color:var(--red)}
+.explain p{margin:0;font-size:14.5px;color:var(--ink-soft);line-height:1.62;white-space:pre-wrap}
+.explain .noexp{color:var(--ink-faint);font-style:italic;font-size:13.5px}
+
+.qnav{display:flex;gap:10px}
+.qnav button{flex:1;font-family:"IBM Plex Sans Thai Looped";font-weight:600;font-size:15px;border-radius:11px;padding:14px;cursor:pointer;transition:.16s;border:1.5px solid var(--rule-strong)}
+.qnav .prev{background:transparent;color:var(--ink);flex:0 0 auto;padding:14px 18px}
+.qnav .prev:disabled{opacity:.3;cursor:not-allowed}
+.qnav .next{background:var(--rule-strong);color:#fff;border-color:var(--rule-strong)}
+.qnav .next:hover{background:#0f1c16}
+.qnav .next:disabled{opacity:.4;cursor:not-allowed}
+
+/* ---------- results ---------- */
+.scorecard{text-align:center;background:var(--paper-card);border:1px solid var(--rule);border-radius:16px;box-shadow:var(--shadow);padding:30px 22px 26px}
+.scorecard .pct{font-family:"IBM Plex Mono";font-weight:600;font-size:58px;line-height:1;letter-spacing:-2px}
+.scorecard .pct.pass{color:var(--green)} .scorecard .pct.fail{color:var(--red)}
+.scorecard .frac{font-family:"IBM Plex Mono";font-size:15px;color:var(--ink-soft);margin-top:8px}
+.scorecard .verdict-tag{display:inline-block;margin-top:14px;font-size:13px;font-weight:600;padding:5px 14px;border-radius:999px}
+.scorecard .verdict-tag.pass{background:var(--green-bg);color:var(--green)}
+.scorecard .verdict-tag.fail{background:var(--red-bg);color:var(--red)}
+.ledger{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+.ledger caption{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);text-align:left;padding:18px 2px 8px}
+.ledger td{padding:8px 4px;border-bottom:1px solid var(--rule)}
+.ledger td.num{font-family:"IBM Plex Mono";text-align:right;color:var(--ink-soft);white-space:nowrap}
+.ledger tr:nth-child(even) td{background:var(--row-alt)}
+
+.review{margin-top:26px}
+.rv{background:var(--paper-card);border:1px solid var(--rule);border-left-width:4px;border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.rv.ok{border-left-color:var(--green)} .rv.no{border-left-color:var(--red)}
+.rv .rvhead{display:flex;gap:10px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
+.rv .rvhead .mono{font-size:11px;color:var(--ink-faint)}
+.rv .rvhead .res{font-family:"IBM Plex Mono";font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px}
+.rv.ok .res{background:var(--green-bg);color:var(--green)} .rv.no .res{background:var(--red-bg);color:var(--red)}
+.rv .q{font-weight:500;font-size:15px;margin-bottom:8px;white-space:pre-wrap}
+.rv .ans{font-size:13.5px;color:var(--ink-soft);margin:2px 0}
+.rv .ans .lab{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-faint);margin-right:6px}
+.rv .ans.you.bad{color:var(--red)} .rv .ans.cor{color:var(--green);font-weight:500}
+.rv details{margin-top:8px}
+.rv summary{cursor:pointer;font-size:13px;color:var(--brass);font-family:"IBM Plex Mono"}
+.rv details p{font-size:13.5px;color:var(--ink-soft);margin:8px 0 0;white-space:pre-wrap;line-height:1.6}
+
+footer{border-top:1px solid var(--rule);margin-top:40px;padding:20px 0 30px}
+footer .wrap{font-size:11.5px;color:var(--ink-faint);line-height:1.7}
+footer a{color:var(--brass)}
+
+@media(max-width:560px){
+  .brand .sub{display:none}
+  h2.section{font-size:22px}
+  .scorecard .pct{font-size:48px}
+  .stem{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="app">
+  <div class="wrap">
+    <div class="brand">
+      <span class="dot"></span>
+      <h1>การบัญชี 1</h1>
+      <span class="sub">CPA · ปรนัย</span>
+    </div>
+    <div class="hstat" id="hstat"></div>
+  </div>
+</header>
+
+<main class="wrap" id="root"></main>
+
+<footer><div class="wrap">
+  คลังข้อสอบ <b>การบัญชี 1 (ส่วนปรนัย)</b> สำหรับเตรียมสอบผู้สอบบัญชีรับอนุญาต (CPA) ·
+  รวบรวมจากชุดข้อสอบจำลองพร้อมเฉลย เพื่อการศึกษาเท่านั้น ·
+  เนื้อหาอ้างอิงมาตรฐานการรายงานทางการเงิน (TFRS/TAS) ฉบับปรับปรุง
+  <br>เฉลยและคำอธิบายมาจากเอกสารต้นฉบับ ควรตรวจทานกับมาตรฐานฉบับปัจจุบันก่อนใช้อ้างอิงจริง
+</div></footer>
+
+<script src="data.js"></script>
+<script>
+"use strict";
+const DATA = (window.EXAM_DATA || []).map((q,i)=>({...q, _i:i}));
+const $ = (s,el=document)=>el.querySelector(s);
+const root = $("#root");
+const PASS = 60; // เกณฑ์ผ่าน % (ปรับได้)
+
+/* ---------- persistent lifetime stats (safe) ---------- */
+const LS_KEY = "cpa_ac1_stats_v1";
+function loadStats(){ try{return JSON.parse(localStorage.getItem(LS_KEY))||{answered:0,correct:0}}catch(e){return {answered:0,correct:0}} }
+function saveStats(s){ try{localStorage.setItem(LS_KEY,JSON.stringify(s))}catch(e){} }
+function bumpStats(ans,cor){ const s=loadStats(); s.answered+=ans; s.correct+=cor; saveStats(s); renderHStat(); }
+function renderHStat(){
+  const s=loadStats();
+  const pct = s.answered? Math.round(s.correct/s.answered*100):0;
+  $("#hstat").innerHTML = s.answered
+    ? `ทำสะสม ${s.answered} ข้อ · ถูก <b>${pct}%</b>`
+    : `${DATA.length} ข้อ · ${EXAMS.length} ชุดสอบ`;
+}
+
+/* ---------- derive exams & topics ---------- */
+const EXAMS = [...new Map(DATA.map(q=>[q.exam,{exam:q.exam,label:q.label,year:q.year,round:q.round}])).values()]
+  .sort((a,b)=> a.year-b.year || (''+a.round).localeCompare(''+b.round));
+EXAMS.forEach(e=> e.count = DATA.filter(q=>q.exam===e.exam).length);
+const TOPICS = [...new Map(DATA.map(q=>[q.topic,0])).keys()]
+  .map(t=>({topic:t,count:DATA.filter(q=>q.topic===t).length}))
+  .sort((a,b)=> b.count-a.count);
+
+/* ---------- state ---------- */
+let cfg = { mode:"practice", exams:new Set(), topics:new Set(), count:20, shuffle:true };
+let session = null; // {questions, idx, answers:[], revealed:[]}
+
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]} return a; }
+const KEYS=["a","b","c","d","e"];
+
+/* ============================ SETUP VIEW ============================ */
+function renderSetup(){
+  renderHStat();
+  const examChips = EXAMS.map(e=>
+    `<button class="chip exam" data-ex="${e.exam}" aria-pressed="${cfg.exams.has(e.exam)}">${e.label}<span class="c">${e.count}</span></button>`).join("");
+  const topicChips = TOPICS.map((t,i)=>
+    `<button class="chip topic" data-tp="${i}" aria-pressed="${cfg.topics.has(t.topic)}">${t.topic}<span class="c">${t.count}</span></button>`).join("");
+  const counts=[10,20,40,"ทั้งหมด"];
+  const countChips = counts.map(c=>{
+    const v = c==="ทั้งหมด"?"all":c;
+    return `<button class="chip cnt" data-cnt="${v}" aria-pressed="${(''+cfg.count)===(''+v)}">${c}</button>`;
+  }).join("");
+
+  root.innerHTML = `
+  <div class="view">
+    <div class="eyebrow">เตรียมสอบผู้สอบบัญชีรับอนุญาต</div>
+    <h2 class="section">ตั้งค่าชุดฝึกข้อสอบ</h2>
+    <p class="lede">เลือกขอบเขตแล้วเริ่มทำได้เลย — มี ${DATA.length} ข้อปรนัยพร้อมเฉลย จาก ${EXAMS.length} ชุดสอบ (ปี ${EXAMS[0].year}–${EXAMS[EXAMS.length-1].year})</p>
+    <hr class="dbl-rule">
+
+    <div class="formcard">
+      <div class="field">
+        <label class="flab"><span class="n">01</span> โหมดการทำ</label>
+        <div class="seg" id="segMode">
+          <button data-m="practice" aria-pressed="${cfg.mode==='practice'}">ฝึกหัด · เฉลยทันที</button>
+          <button data-m="test" aria-pressed="${cfg.mode==='test'}">ทำเป็นชุด · เฉลยตอนจบ</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="flab"><span class="n">02</span> ชุดข้อสอบ <span class="hint">ไม่เลือก = ทุกชุด</span></label>
+        <div class="chips" id="examChips">
+          <button class="chip all" data-all="exam" aria-pressed="${cfg.exams.size===0}">ทั้งหมด</button>
+          ${examChips}
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="flab"><span class="n">03</span> หัวข้อ / มาตรฐาน <span class="hint">ไม่เลือก = ทุกหัวข้อ</span></label>
+        <div class="chips" id="topicChips">
+          <button class="chip all" data-all="topic" aria-pressed="${cfg.topics.size===0}">ทั้งหมด</button>
+          ${topicChips}
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="flab"><span class="n">04</span> จำนวนข้อ</label>
+        <div class="counts" id="countChips">${countChips}</div>
+      </div>
+
+      <div class="field">
+        <div class="toggle-row">
+          <label class="flab" style="margin:0"><span class="n">05</span> สลับลำดับข้อแบบสุ่ม</label>
+          <label class="switch"><input type="checkbox" id="shuf" ${cfg.shuffle?"checked":""}><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <button class="cta" id="start">เริ่มทำข้อสอบ <span id="startCount"></span></button>
+      <p class="note" id="poolNote"></p>
+    </div>
+  </div>`;
+
+  // events
+  $("#segMode").onclick = e=>{ const b=e.target.closest("button"); if(!b)return; cfg.mode=b.dataset.m; renderSetup(); };
+  bindChips("#examChips","exam");
+  bindChips("#topicChips","topic");
+  $("#countChips").onclick = e=>{ const b=e.target.closest("button"); if(!b)return;
+    cfg.count = b.dataset.cnt==="all"?"all":(+b.dataset.cnt); renderSetup(); };
+  $("#shuf").onchange = e=> cfg.shuffle=e.target.checked;
+  $("#start").onclick = startSession;
+  updatePool();
+}
+function bindChips(sel,kind){
+  $(sel).onclick = e=>{
+    const b=e.target.closest("button"); if(!b)return;
+    const set = kind==="exam"?cfg.exams:cfg.topics;
+    if(b.dataset.all!==undefined){ set.clear(); }
+    else {
+      const val = kind==="exam"? b.dataset.ex : TOPICS[+b.dataset.tp].topic;
+      set.has(val)?set.delete(val):set.add(val);
+    }
+    renderSetup();
+  };
+}
+function pool(){
+  return DATA.filter(q=>
+    (cfg.exams.size===0 || cfg.exams.has(q.exam)) &&
+    (cfg.topics.size===0 || cfg.topics.has(q.topic)));
+}
+function updatePool(){
+  const n = pool().length;
+  const take = cfg.count==="all"? n : Math.min(cfg.count,n);
+  $("#startCount").textContent = n? `· ${take} ข้อ` : "";
+  $("#poolNote").textContent = n? `เข้าเงื่อนไขทั้งหมด ${n} ข้อ — จะสุ่มมา ${take} ข้อ`
+                                 : "ไม่มีข้อสอบตามเงื่อนไขนี้ ลองปรับตัวเลือก";
+  const btn=$("#start"); btn.disabled = n===0;
+}
+
+/* ============================ QUIZ ============================ */
+function startSession(){
+  let qs = pool();
+  if(!qs.length) return;
+  qs = cfg.shuffle? shuffle(qs) : qs.slice();
+  if(cfg.count!=="all") qs = qs.slice(0,cfg.count);
+  session = { questions:qs, idx:0, answers:Array(qs.length).fill(null), revealed:Array(qs.length).fill(false), counted:false };
+  renderQuiz();
+  window.scrollTo(0,0);
+}
+
+function renderQuiz(){
+  const s=session, i=s.idx, q=s.questions[i];
+  const total=s.questions.length;
+  const chosen=s.answers[i];
+  const revealed = cfg.mode==="practice" && s.revealed[i];
+  const answeredCount=s.answers.filter(a=>a!==null).length;
+  const correctCount=s.questions.reduce((n,qq,k)=> n+(s.answers[k]===qq.answer?1:0),0);
+
+  const optKeys = Object.keys(q.options).filter(k=>q.options[k]!=null).sort();
+  const optsHTML = optKeys.map(k=>{
+    let cls="opt", mark="";
+    if(revealed){
+      if(k===q.answer){cls+=" correct"; mark="ถูก";}
+      else if(k===chosen){cls+=" wrong"; mark="ที่คุณเลือก";}
+    } else if(k===chosen){ cls+=""; }
+    const pressed = (!revealed && k===chosen)?"true":"false";
+    return `<li><button class="${cls}" data-k="${k}" aria-pressed="${pressed}" ${revealed?"disabled":""}>
+       <span class="key">${k.toUpperCase()}</span>
+       <span class="txt">${esc(q.options[k])}</span>
+       ${mark?`<span class="mark">${mark}</span>`:""}
+     </button></li>`;
+  }).join("");
+
+  let explainHTML="";
+  if(revealed){
+    const ok = chosen===q.answer;
+    explainHTML = `<div class="explain">
+      <div class="lab">เฉลย — ข้อ ${q.answer.toUpperCase()}</div>
+      <div class="verdict ${ok?'ok':'no'}">${ok?'✓ ตอบถูก':'✗ ตอบผิด — คำตอบที่ถูกคือข้อ '+q.answer.toUpperCase()}</div>
+      ${q.explanation? `<p>${esc(q.explanation)}</p>` : `<p class="noexp">— ชุดข้อสอบนี้ไม่ได้ให้คำอธิบายไว้ —</p>`}
+    </div>`;
+  }
+
+  const isLast = i===total-1;
+  const canNext = cfg.mode==="test" ? true : revealed; // practice: must reveal first
+  const runScore = cfg.mode==="practice"
+      ? `<span class="runscore mono">ถูก ${correctCount}/${answeredCount||0}</span>` : "";
+
+  root.innerHTML = `
+  <div class="view">
+    <div class="qbar">
+      <span class="pos">ข้อ <b>${i+1}</b> / ${total}</span>
+      ${runScore}
+      <button class="linkbtn" id="quit">ออก</button>
+    </div>
+    <div class="progress"><i style="width:${(i)/total*100}%"></i></div>
+
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="tag">${q.label}</span>
+        <span class="tag topic">${q.topic}</span>
+        <span class="qno">ต้นฉบับข้อ ${q.num}</span>
+      </div>
+      <div class="stem">${esc(q.stem)}</div>
+      <ul class="opts" id="opts">${optsHTML}</ul>
+      ${explainHTML}
+    </div>
+
+    <div class="qnav">
+      <button class="prev" id="prev" ${i===0?"disabled":""}>← ก่อนหน้า</button>
+      <button class="next" id="next" ${canNext?"":"disabled"}>${isLast?"ดูผลคะแนน":"ถัดไป →"}</button>
+    </div>
+  </div>`;
+
+  $("#opts").onclick = e=>{
+    const b=e.target.closest(".opt"); if(!b||b.disabled)return;
+    choose(b.dataset.k);
+  };
+  $("#prev").onclick = ()=>{ if(s.idx>0){s.idx--; renderQuiz(); window.scrollTo(0,0);} };
+  $("#next").onclick = next;
+  $("#quit").onclick = ()=>{ if(confirm("ออกจากชุดนี้และกลับไปหน้าตั้งค่า?")){ session=null; renderSetup(); } };
+}
+
+function choose(k){
+  const s=session,i=s.idx;
+  if(cfg.mode==="practice"){
+    if(s.revealed[i]) return;       // locked after reveal
+    s.answers[i]=k; s.revealed[i]=true;
+    renderQuiz();
+  } else {
+    s.answers[i]=k;                 // test mode: just select, allow change
+    renderQuiz();
+  }
+}
+function next(){
+  const s=session;
+  if(s.idx===s.questions.length-1){ finish(); }
+  else { s.idx++; renderQuiz(); window.scrollTo(0,0); }
+}
+
+/* keyboard */
+document.addEventListener("keydown",e=>{
+  if(!session) return;
+  const q=session.questions[session.idx];
+  const keys=Object.keys(q.options).filter(k=>q.options[k]!=null).sort();
+  if(["1","2","3","4","5"].includes(e.key)){ const k=keys[+e.key-1]; if(k) choose(k); }
+  else if(["a","b","c","d","e"].includes(e.key.toLowerCase())){ if(keys.includes(e.key.toLowerCase())) choose(e.key.toLowerCase()); }
+  else if(e.key==="Enter"){ const nb=$("#next"); if(nb && !nb.disabled) nb.click(); }
+  else if(e.key==="ArrowLeft"){ const pb=$("#prev"); if(pb && !pb.disabled) pb.click(); }
+});
+
+/* ============================ RESULTS ============================ */
+function finish(){
+  const s=session;
+  const total=s.questions.length;
+  const correct=s.questions.reduce((n,q,k)=> n+(s.answers[k]===q.answer?1:0),0);
+  if(!s.counted){ bumpStats(total,correct); s.counted=true; }
+  const pct=Math.round(correct/total*100);
+  const pass=pct>=PASS;
+
+  // by-topic ledger
+  const byTopic={};
+  s.questions.forEach((q,k)=>{
+    const t=byTopic[q.topic]||(byTopic[q.topic]={c:0,n:0});
+    t.n++; if(s.answers[k]===q.answer)t.c++;
+  });
+  const ledgerRows=Object.entries(byTopic).sort((a,b)=>b[1].n-a[1].n).map(([t,v])=>
+    `<tr><td>${t}</td><td class="num">${v.c}/${v.n}</td><td class="num">${Math.round(v.c/v.n*100)}%</td></tr>`).join("");
+
+  const reviewRows=s.questions.map((q,k)=>{
+    const you=s.answers[k];
+    const ok=you===q.answer;
+    const youTxt = you? `ข้อ ${you.toUpperCase()} — ${esc(q.options[you]||"")}` : "ไม่ได้ตอบ";
+    return `<div class="rv ${ok?'ok':'no'}">
+      <div class="rvhead">
+        <span class="res">${ok?'ถูก':'ผิด'}</span>
+        <span class="mono">${q.label} · ข้อ ${q.num} · ${q.topic}</span>
+      </div>
+      <div class="q">${k+1}. ${esc(q.stem)}</div>
+      <div class="ans you ${ok?'':'bad'}"><span class="lab">คุณตอบ</span>${youTxt}</div>
+      ${ok?'':`<div class="ans cor"><span class="lab">เฉลย</span>ข้อ ${q.answer.toUpperCase()} — ${esc(q.options[q.answer]||"")}</div>`}
+      ${q.explanation?`<details><summary>ดูคำอธิบาย</summary><p>${esc(q.explanation)}</p></details>`:""}
+    </div>`;
+  }).join("");
+
+  root.innerHTML=`
+  <div class="view">
+    <div class="eyebrow">สรุปผล</div>
+    <h2 class="section">ผลการทำข้อสอบ</h2>
+    <hr class="dbl-rule">
+    <div class="scorecard">
+      <div class="pct ${pass?'pass':'fail'}">${pct}%</div>
+      <div class="frac">ตอบถูก ${correct} จาก ${total} ข้อ</div>
+      <div class="verdict-tag ${pass?'pass':'fail'}">${pass?'ผ่านเกณฑ์ '+PASS+'%':'ยังไม่ถึงเกณฑ์ '+PASS+'%'}</div>
+    </div>
+
+    <table class="ledger">
+      <caption>แยกตามหัวข้อ</caption>
+      <tbody>${ledgerRows}
+        <tr><td><b>รวม</b></td><td class="num"><b>${correct}/${total}</b></td><td class="num"><b>${pct}%</b></td></tr>
+      </tbody>
+    </table>
+    <hr class="dbl-rule" style="margin-top:6px">
+
+    <div class="qnav">
+      <button class="prev" id="again" style="flex:1">ทำชุดใหม่อีกครั้ง</button>
+      <button class="next" id="back">ปรับตั้งค่าใหม่</button>
+    </div>
+
+    <div class="review">
+      <div class="eyebrow" style="margin-bottom:8px">ทบทวนรายข้อ (${total})</div>
+      ${reviewRows}
+    </div>
+  </div>`;
+
+  $("#again").onclick=()=>{ startSession(); };
+  $("#back").onclick=()=>{ session=null; renderSetup(); };
+  window.scrollTo(0,0);
+}
+
+/* ---------- util ---------- */
+function esc(s){ return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+/* ---------- boot ---------- */
+if(!DATA.length){
+  root.innerHTML = `<div class="view"><h2 class="section">โหลดข้อมูลไม่สำเร็จ</h2>
+    <p class="lede">ไม่พบไฟล์ <span class="mono">data.js</span> วางไว้โฟลเดอร์เดียวกับหน้านี้ แล้วเปิดผ่านเว็บเซิร์ฟเวอร์หรือ GitHub Pages</p></div>`;
+} else {
+  renderSetup();
+}
+</script>
+</body>
+</html>
